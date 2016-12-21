@@ -5,15 +5,14 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"io/ioutil"
+	"os"
 )
-
-var dbURL = "http://172.17.0.4:8099"
 
 func main() {
 	
     r := mux.NewRouter()
     r.HandleFunc("/",func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "Hello, Welcome to Mainsail Message Lookup Tool! ")
+        fmt.Fprintf(w, "Hello, Welcome to Mainsail Message Lookup Tool! " + os.Getenv("DBURL"))
     })
 	r.HandleFunc("/querybyno/{msgNo}", displayMsg)
 	r.HandleFunc("/queryall", displayMsg)
@@ -22,7 +21,7 @@ func main() {
 
 
 func displayMsg(w http.ResponseWriter, r *http.Request) {
-	resp, _ := http.Get(dbURL + r.URL.Path  ) 
+	resp, _ := http.Get(os.Getenv("DBURL") + r.URL.Path) 
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	fmt.Fprint(w,string(body))

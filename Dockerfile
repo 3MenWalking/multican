@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM debian:latest
 MAINTAINER Wilson Zhang <topagentwilson@gmail.com>
 Add multican /usr/bin/multican
 EXPOSE 8100
